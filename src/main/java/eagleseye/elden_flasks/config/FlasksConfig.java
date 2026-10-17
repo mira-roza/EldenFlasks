@@ -27,6 +27,8 @@ public class FlasksConfig implements ConfigData {
         public float max_healing_amount = 12;
         @Comment("The amount of time, in ticks, it takes to drink the flask")
         public int drink_time = 30;
+        @Comment("Whether kills can recharge the healing flask")
+        public boolean recharge_from_kills = false;
         @Comment("Amount of kills needed to recharge 1 charge of the flask")
         public int recharge_kill_requirement = 5;
         @Comment("Amount of uses recharged from reaching the recharge_kill_requirement")

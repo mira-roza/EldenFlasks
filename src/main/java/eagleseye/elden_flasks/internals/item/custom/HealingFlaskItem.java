@@ -92,7 +92,8 @@ public class HealingFlaskItem extends Item {
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
 
-        if (hasReachedKillRequirement(stack)) {
+        if (EldenFlasks.flasksConfig.healing_flask.recharge_from_kills
+        && hasReachedKillRequirement(stack)) {
             ComponentUtils.setCurrentUses(stack, ComponentUtils.getCurrentUses(stack) + EldenFlasks.flasksConfig.healing_flask.recharge_from_kill_amount);
             ComponentUtils.setCurrentKillCount(stack, ComponentUtils.getCurrentKillCount(stack) - ComponentUtils.getRequiredKillCount(stack));
             if (entity instanceof PlayerEntity player) {
@@ -114,7 +115,13 @@ public class HealingFlaskItem extends Item {
             tooltip.add(usesText.formatted(Formatting.GOLD));
         }
         tooltip.add(Text.translatable("tooltip.elden_flasks.healing_flask.healing", (int) ComponentUtils.getHealAmount(stack)).formatted(Formatting.GOLD));
-        tooltip.add(Text.translatable("tooltip.elden_flasks.healing_flask.recharge", ComponentUtils.getCurrentKillCount(stack), ComponentUtils.getRequiredKillCount(stack)).formatted(Formatting.GRAY));
+        if (EldenFlasks.flasksConfig.healing_flask.recharge_from_kills) {
+            tooltip.add(Text.translatable(
+                    "tooltip.elden_flasks.healing_flask.recharge",
+                    ComponentUtils.getCurrentKillCount(stack),
+                    ComponentUtils.getRequiredKillCount(stack)
+            ).formatted(Formatting.GRAY));
+        }
         super.appendTooltip(stack, context, tooltip, type);
 
         if (Screen.hasShiftDown()) {
